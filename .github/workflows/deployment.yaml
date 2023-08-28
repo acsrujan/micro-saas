@@ -1,0 +1,47 @@
+name: Deployment Pipeline
+
+on:
+  workflow_run:
+    workflows: ["Deploy Workflow"]
+    types:
+      - completed
+
+jobs:
+  deploy_to_dev:
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.name == 'Deploy Workflow' && github.event.workflow_run.event == 'workflow_run'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Deploy to Dev
+        run: |
+          # Your deployment script for Dev environment here
+          # Example: ./deploy-dev.sh
+
+  deploy_to_staging:
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.name == 'Deploy Workflow' && github.event.workflow_run.event == 'workflow_run'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Deploy to Staging
+        run: |
+          # Your deployment script for Staging environment here
+          # Example: ./deploy-staging.sh
+
+  deploy_to_production:
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.name == 'Deploy Workflow' && github.event.workflow_run.event == 'workflow_run'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Deploy to Production
+        run: |
+          # Your deployment script for Production environment here
+          # Example: ./deploy-production.sh
